@@ -43,13 +43,13 @@ class GetEarningsCommandTest extends IntegrationTestCase
     {
         return [
             [
-                'tea', 'You have earned £15' . PHP_EOL,
+                'tea', 'You have earned 15' . PHP_EOL,
             ],
             [
-                'coffee', 'You have earned £25.75' . PHP_EOL,
+                'coffee', 'You have earned 25.75' . PHP_EOL,
             ],
             [
-                'chocolate', 'You have earned £36' . PHP_EOL,
+                'chocolate', 'You have earned 36' . PHP_EOL,
             ],
         ];
     }

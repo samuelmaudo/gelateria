@@ -10,12 +10,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeDrinkCommand extends Command
 {
-    protected static $defaultName = 'app:order-drink';
+    protected const PRICES = [
+        'tea' => 0.4,
+        'coffee' => 0.5,
+        'chocolate' => 0.6,
+    ];
 
-    public function __construct()
-    {
-        parent::__construct(MakeDrinkCommand::$defaultName);
-    }
+    protected static $defaultName = 'app:order-drink';
 
     protected function configure(): void
     {
@@ -42,62 +43,43 @@ class MakeDrinkCommand extends Command
             'extra-hot',
             'e',
             InputOption::VALUE_NONE,
-            $description = 'If the user wants to make the drink extra hot'
+            'If the user wants to make the drink extra hot'
         );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $drinkType = strtolower($input->getArgument('drink-type'));
-        if (!in_array($drinkType, ['tea', 'coffee', 'chocolate'])) {
+        $money = $input->getArgument('money');
+        $sugars = $input->getArgument('sugars');
+        $extraHot = $input->getOption('extra-hot');
+
+        if (!isset(static::PRICES[$drinkType])) {
             $output->writeln('The drink type should be tea, coffee or chocolate.');
-        } else {
-            /**
-             * Tea       --> 0.4
-             * Coffee    --> 0.5
-             * Chocolate --> 0.6
-             */
-            $money = $input->getArgument('money');
-            switch ($drinkType) {
-                case 'tea':
-                    if ($money < 0.4) {
-                        $output->writeln('The tea costs 0.4.');
-                        return 0;
-                    }
-                    break;
-                case 'coffee':
-                    if ($money < 0.5) {
-                        $output->writeln('The coffee costs 0.5.');
-                        return 0;
-                    }
-                    break;
-                case 'chocolate':
-                    if ($money < 0.6) {
-                        $output->writeln('The chocolate costs 0.6.');
-                        return 0;
-                    }
-                    break;
-            }
-
-            $sugars = $input->getArgument('sugars');
-            $stick = false;
-            $extraHot = $input->getOption('extra-hot');
-            if ($sugars >= 0 && $sugars <= 2) {
-                $output->write('You have ordered a ' . $drinkType);
-                if ($extraHot) {
-                    $output->write(' extra hot');
-                }
-
-                if ($sugars > 0) {
-                    $stick = true;
-                    $output->write(' with ' . $sugars . ' sugars (stick included)');
-                }
-                $output->writeln('');
-            } else {
-                $output->writeln('The number of sugars should be between 0 and 2.');
-            }
+            return Command::INVALID;
         }
 
-        return 0;
+        $price = static::PRICES[$drinkType];
+        if ($money < $price) {
+            $output->writeln("The {$drinkType} costs {$price}.");
+            return Command::INVALID;
+        }
+
+        if ($sugars < 0 || $sugars > 2) {
+            $output->writeln('The number of sugars should be between 0 and 2.');
+            return Command::INVALID;
+        }
+
+        $output->write("You have ordered a {$drinkType}");
+
+        if ($extraHot) {
+            $output->write(' extra hot');
+        }
+        if ($sugars > 0) {
+            $output->write(" with {$sugars} sugars (stick included)");
+        }
+        $output->writeln('');
+
+        return Command::SUCCESS;
     }
 }

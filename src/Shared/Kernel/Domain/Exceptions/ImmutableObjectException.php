@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Domain\Exceptions;
+namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Exceptions;
 
 use BadMethodCallException;
 use Throwable;

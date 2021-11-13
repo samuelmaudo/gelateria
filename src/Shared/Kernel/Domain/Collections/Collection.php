@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Domain\Collections;
+namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Collections;
 
-use GetWith\CoffeeMachine\Shared\Domain\Exceptions\ImmutableObjectException;
+use GetWith\CoffeeMachine\Shared\Kernel\Domain\Exceptions\ImmutableObjectException;
 
 use ArrayAccess;
 use ArrayIterator;

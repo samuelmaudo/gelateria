@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Domain\Values;
+namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
 use InvalidArgumentException;
 
@@ -23,7 +23,17 @@ abstract class Boolean extends Value
         return ($this->value()) ? 'true' : 'false';
     }
 
-    public function value(): bool
+    final public function isTrue(): bool
+    {
+        return $this->value;
+    }
+
+    final public function isFalse(): bool
+    {
+        return !$this->value;
+    }
+
+    final public function value(): bool
     {
         return $this->value;
     }

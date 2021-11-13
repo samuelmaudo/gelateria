@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Domain\Values;
+namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
 use InvalidArgumentException;
 
@@ -12,10 +12,12 @@ abstract class Integer extends Value
 
     public function __construct(int|string $value)
     {
-        $this->value = $this->sanitize($value);
+        $value = $this->sanitize($value);
+        $this->validate($value);
+        $this->value = $value;
     }
 
-    public function value(): int
+    final public function value(): int
     {
         return $this->value;
     }
@@ -25,10 +27,16 @@ abstract class Integer extends Value
         if (is_int($value)) {
             return $value;
         }
+
         if (ctype_digit($value)) {
             return (int) $value;
         }
+
         $val = var_export($value, true);
         throw new InvalidArgumentException("{$val} is not a valid integer");
+    }
+
+    protected function validate(int $value): void
+    {
     }
 }

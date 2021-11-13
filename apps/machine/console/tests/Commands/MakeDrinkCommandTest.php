@@ -1,9 +1,9 @@
 <?php
 
-namespace GetWith\CoffeeMachine\Tests\Integration\Console;
+namespace GetWith\CoffeeMachine\Apps\Machine\Console\Tests\Commands;
 
-use GetWith\CoffeeMachine\Console\MakeDrinkCommand;
-use GetWith\CoffeeMachine\Tests\Integration\IntegrationTestCase;
+use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\MakeDrinkCommand;
+use GetWith\CoffeeMachine\Apps\Machine\Console\Tests\Shared\IntegrationTestCase;
 
 use Symfony\Component\Console\Tester\CommandTester;
 

@@ -4,8 +4,8 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-use GetWith\CoffeeMachine\Console\MakeDrinkCommand;
-use GetWith\CoffeeMachine\Console\GetEarningsCommand;
+use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\MakeDrinkCommand;
+use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\GetEarningsCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();

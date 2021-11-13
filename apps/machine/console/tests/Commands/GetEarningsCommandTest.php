@@ -1,9 +1,9 @@
 <?php
 
-namespace GetWith\CoffeeMachine\Tests\Integration\Console;
+namespace GetWith\CoffeeMachine\Apps\Machine\Console\Tests\Commands;
 
-use GetWith\CoffeeMachine\Console\GetEarningsCommand;
-use GetWith\CoffeeMachine\Tests\Integration\IntegrationTestCase;
+use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\GetEarningsCommand;
+use GetWith\CoffeeMachine\Apps\Machine\Console\Tests\Shared\IntegrationTestCase;
 
 use Symfony\Component\Console\Tester\CommandTester;
 

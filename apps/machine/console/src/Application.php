@@ -6,7 +6,7 @@ namespace GetWith\CoffeeMachine\Apps\Machine\Console;
 
 use Symfony\Component\Console\Application as SymfonyApplication;
 
-class Application extends SymfonyApplication
+final class Application extends SymfonyApplication
 {
     public function __construct(iterable $commands)
     {

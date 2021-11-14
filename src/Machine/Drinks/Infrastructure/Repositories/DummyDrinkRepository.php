@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Machine\Drinks\Infrastructure\Repositories;
 
+use GetWith\CoffeeMachine\Machine\Drinks\Domain\Collections\Drinks;
 use GetWith\CoffeeMachine\Machine\Drinks\Domain\Entities\Drink;
 use GetWith\CoffeeMachine\Machine\Drinks\Domain\Repositories\DrinkRepository;
 use GetWith\CoffeeMachine\Machine\Shared\Domain\Values\DrinkId;
@@ -41,5 +42,10 @@ final class DummyDrinkRepository implements DrinkRepository
         $key = $drinkId->value();
 
         return self::$drinks[$key] ?? null;
+    }
+
+    public function search(): Drinks
+    {
+        return new Drinks(self::$drinks);
     }
 }

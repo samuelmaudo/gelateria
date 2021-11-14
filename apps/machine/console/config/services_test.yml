@@ -2,6 +2,7 @@ services:
     _defaults:
         autoconfigure: true
         autowire: true
+        public: true
 
     _instanceof:
         Symfony\Component\Console\Command\Command:
@@ -20,7 +21,6 @@ services:
         resource: '../../../../src/Shared/*/*/{Services,Repositories}'
 
     GetWith\CoffeeMachine\Apps\Machine\Console\Application:
-        public: true
         arguments: [ !tagged console.command ]
 
     GetWith\CoffeeMachine\Machine\Drinks\Domain\Repositories\DrinkRepository: '@GetWith\CoffeeMachine\Machine\Drinks\Infrastructure\Repositories\DummyDrinkRepository'

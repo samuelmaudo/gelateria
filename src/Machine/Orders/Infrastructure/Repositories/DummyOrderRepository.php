@@ -8,7 +8,7 @@ use GetWith\CoffeeMachine\Machine\Orders\Domain\Entities\Order;
 use GetWith\CoffeeMachine\Machine\Orders\Domain\Repositories\OrderRepository;
 use GetWith\CoffeeMachine\Machine\Shared\Domain\Values\DrinkId;
 
-class DummyOrderRepository implements OrderRepository
+final class DummyOrderRepository implements OrderRepository
 {
     /** @var array<string, Order> */
     private static array $orders = [];

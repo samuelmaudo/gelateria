@@ -62,7 +62,7 @@ abstract class Collection implements ArrayAccess, Countable, IteratorAggregate
      * @param  int  $offset
      * @return T
      */
-    public function offsetGet($offset): mixed
+    public function offsetGet($offset): object
     {
         return $this->items[$offset];
     }

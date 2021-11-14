@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GetWith\CoffeeMachine\Apps\Machine\Console\Tests\Shared;
 
 use GetWith\CoffeeMachine\Apps\Machine\Console\Application;
@@ -11,19 +13,20 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class IntegrationTestCase extends TestCase
 {
+    protected ContainerBuilder $container;
     protected Application $application;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $container = new ContainerBuilder();
+        $this->container = new ContainerBuilder();
 
-        $loader = new YamlFileLoader($container, new FileLocator());
-        $loader->load(__DIR__ . '/../../config/services.yml');
+        $loader = new YamlFileLoader($this->container, new FileLocator());
+        $loader->load(__DIR__ . '/../../config/services_test.yml');
 
-        $container->compile();
+        $this->container->compile();
 
-        $this->application = $container->get(Application::class);
+        $this->application = $this->container->get(Application::class);
     }
 }

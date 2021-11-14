@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits;
 
 use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Value;

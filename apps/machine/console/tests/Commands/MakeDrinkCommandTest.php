@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GetWith\CoffeeMachine\Apps\Machine\Console\Tests\Commands;
 
 use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\MakeDrinkCommand;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Collections;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Exceptions\ImmutableObjectException;
+use GetWith\CoffeeMachine\Shared\Kernel\Domain\Exceptions\ImmutableObjectError;
 
 use ArrayAccess;
 use ArrayIterator;
@@ -72,22 +72,22 @@ abstract class Collection implements ArrayAccess, Countable, IteratorAggregate
      * @param  T  $value
      * @return void
      *
-     * @throws ImmutableObjectException
+     * @throws ImmutableObjectError
      */
     public function offsetSet($offset, $value): void
     {
-        throw new ImmutableObjectException($this);
+        throw new ImmutableObjectError($this);
     }
 
     /**
      * @param  int  $offset
      * @return void
      *
-     * @throws ImmutableObjectException
+     * @throws ImmutableObjectError
      */
     public function offsetUnset($offset): void
     {
-        throw new ImmutableObjectException($this);
+        throw new ImmutableObjectError($this);
     }
 
     /**

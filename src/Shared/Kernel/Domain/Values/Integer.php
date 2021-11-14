@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
+use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits\Comparable;
+
 use InvalidArgumentException;
 
 abstract class Integer extends Value
 {
+    use Comparable;
+
     protected int $value;
 
     public function __construct(int|string $value)

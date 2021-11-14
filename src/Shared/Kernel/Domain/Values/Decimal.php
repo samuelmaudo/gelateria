@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
+use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits\Comparable;
+
 use InvalidArgumentException;
 
 abstract class Decimal extends Value
 {
+    use Comparable;
+
     protected float $value;
 
     public function __construct(float|int|string $value)

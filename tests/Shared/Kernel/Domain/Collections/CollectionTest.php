@@ -71,11 +71,11 @@ class CollectionTest extends TestCase
     public function testArrayAccess(): void
     {
         $this->assertTrue(isset($this->coll[0]));
-        $this->assertTrue($this->a->equals($this->coll[0]));
+        $this->assertTrue($this->a->is($this->coll[0]));
         $this->assertTrue(isset($this->coll[1]));
-        $this->assertTrue($this->b->equals($this->coll[1]));
+        $this->assertTrue($this->b->is($this->coll[1]));
         $this->assertTrue(isset($this->coll[2]));
-        $this->assertTrue($this->c->equals($this->coll[2]));
+        $this->assertTrue($this->c->is($this->coll[2]));
         $this->assertFalse(isset($this->coll[3]));
     }
 

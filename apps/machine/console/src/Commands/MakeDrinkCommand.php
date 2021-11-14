@@ -1,6 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GetWith\CoffeeMachine\Apps\Machine\Console\Commands;
+
+use GetWith\CoffeeMachine\Machine\Drinks\Application\Services\DrinkFinder;
+use GetWith\CoffeeMachine\Machine\Drinks\Domain\Exceptions\DrinkNotFound;
+use GetWith\CoffeeMachine\Machine\Orders\Application\Services\OrderCreator;
+use GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderExtraHot;
+use GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderGivenMoney;
+use GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderSugars;
+use GetWith\CoffeeMachine\Machine\Shared\Domain\Values\DrinkId;
+
+use InvalidArgumentException;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -8,15 +20,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MakeDrinkCommand extends Command
+final class MakeDrinkCommand extends Command
 {
-    protected const PRICES = [
-        'tea' => 0.4,
-        'coffee' => 0.5,
-        'chocolate' => 0.6,
-    ];
-
     protected static $defaultName = 'app:order-drink';
+
+    public function __construct(
+        private DrinkFinder $drinkFinder,
+        private OrderCreator $orderCreator
+    ) {
+        parent::__construct();
+    }
 
     protected function configure(): void
     {
@@ -49,33 +62,41 @@ class MakeDrinkCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $drinkType = strtolower($input->getArgument('drink-type'));
-        $money = $input->getArgument('money');
-        $sugars = $input->getArgument('sugars');
-        $extraHot = $input->getOption('extra-hot');
+        try {
+            $drinkId = new DrinkId($input->getArgument('drink-type'));
+            $money = new OrderGivenMoney($input->getArgument('money'));
+            $sugars = new OrderSugars($input->getArgument('sugars'));
+            $extraHot = new OrderExtraHot($input->getOption('extra-hot'));
+        } catch (InvalidArgumentException $e) {
+            $output->writeln($e->getMessage());
+            return Command::INVALID;
+        }
 
-        if (!isset(static::PRICES[$drinkType])) {
+        try {
+            $drink = $this->drinkFinder->find($drinkId);
+        } catch (DrinkNotFound) {
             $output->writeln('The drink type should be tea, coffee or chocolate.');
             return Command::INVALID;
         }
 
-        $price = static::PRICES[$drinkType];
-        if ($money < $price) {
-            $output->writeln("The {$drinkType} costs {$price}.");
+        if ($drink->price()->gt($money)) {
+            $output->writeln("The {$drinkId} costs {$drink->price()}.");
             return Command::INVALID;
         }
 
-        if ($sugars < 0 || $sugars > 2) {
-            $output->writeln('The number of sugars should be between 0 and 2.');
+        try {
+            $this->orderCreator->create($money, $drink, $sugars, $extraHot);
+        } catch (InvalidArgumentException $e) {
+            $output->writeln($e->getMessage());
             return Command::INVALID;
         }
 
-        $output->write("You have ordered a {$drinkType}");
+        $output->write("You have ordered a {$drinkId}");
 
-        if ($extraHot) {
+        if ($extraHot->isTrue()) {
             $output->write(' extra hot');
         }
-        if ($sugars > 0) {
+        if ($sugars->gt(0)) {
             $output->write(" with {$sugars} sugars (stick included)");
         }
         $output->writeln('');

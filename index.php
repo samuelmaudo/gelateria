@@ -1,14 +1,19 @@
 #!/usr/bin/env php
 <?php
-// application.php
 
-require __DIR__.'/vendor/autoload.php';
+use GetWith\CoffeeMachine\Apps\Machine\Console\Application;
 
-use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\MakeDrinkCommand;
-use GetWith\CoffeeMachine\Apps\Machine\Console\Commands\GetEarningsCommand;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-$application = new Application();
-$application->add(new MakeDrinkCommand());
-$application->add(new GetEarningsCommand());
-$application->run();
+require __DIR__ . '/vendor/autoload.php';
+
+$container = new ContainerBuilder();
+
+$loader = new YamlFileLoader($container, new FileLocator());
+$loader->load(__DIR__ . '/apps/machine/console/config/services.yml');
+
+$container->compile();
+
+exit($container->get(Application::class)->run());

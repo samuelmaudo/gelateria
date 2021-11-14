@@ -1,0 +1,28 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+
+    _instanceof:
+        Symfony\Component\Console\Command\Command:
+            tags: [ 'console.command' ]
+
+    GetWith\CoffeeMachine\Apps\Machine\Console\:
+        lazy: true
+        resource: '../src'
+
+    GetWith\CoffeeMachine\Machine\:
+        lazy: true
+        resource: '../../../../src/Machine'
+
+    GetWith\CoffeeMachine\Shared\:
+        lazy: true
+        resource: '../../../../src/Shared'
+
+    GetWith\CoffeeMachine\Apps\Machine\Console\Application:
+        public: true
+        arguments: [ !tagged console.command ]
+
+    GetWith\CoffeeMachine\Machine\Drinks\Domain\Repositories\DrinkRepository: '@GetWith\CoffeeMachine\Machine\Drinks\Infrastructure\Repositories\DummyDrinkRepository'
+
+    GetWith\CoffeeMachine\Machine\Orders\Domain\Repositories\OrderRepository: '@GetWith\CoffeeMachine\Machine\Orders\Infrastructure\Repositories\DummyOrderRepository'

@@ -9,29 +9,19 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class MakeDrinkCommandTest extends IntegrationTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->application->add(new MakeDrinkCommand());
-    }
-
     /**
      * @dataProvider ordersProvider
-     * @param  string  $drinkType
-     * @param  string  $money
-     * @param  int  $sugars
-     * @param  string  $extraHot
-     * @param  string  $expectedOutput
      */
     public function testCoffeeMachineReturnsTheExpectedOutput(
         string $drinkType,
         string $money,
         int $sugars,
-        string $extraHot,
+        bool $extraHot,
         string $expectedOutput
     ): void {
+        /** @var MakeDrinkCommand $command */
         $command = $this->application->find('app:order-drink');
+
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),
@@ -52,28 +42,28 @@ class MakeDrinkCommandTest extends IntegrationTestCase
     {
         return [
             [
-                'chocolate', '0.7', 1, '', 'You have ordered a chocolate with 1 sugars (stick included)' . PHP_EOL,
+                'chocolate', '0.7', 1, false, 'You have ordered a chocolate with 1 sugars (stick included)' . PHP_EOL,
             ],
             [
-                'tea', '0.4', 0, '1', 'You have ordered a tea extra hot' . PHP_EOL,
+                'tea', '0.4', 0, true, 'You have ordered a tea extra hot' . PHP_EOL,
             ],
             [
-                'coffee', '2', 2, '1', 'You have ordered a coffee extra hot with 2 sugars (stick included)' . PHP_EOL,
+                'coffee', '2', 2, true, 'You have ordered a coffee extra hot with 2 sugars (stick included)' . PHP_EOL,
             ],
             [
-                'coffee', '0.2', 2, '1', 'The coffee costs 0.5.' . PHP_EOL,
+                'coffee', '0.2', 2, true, 'The coffee costs 0.5.' . PHP_EOL,
             ],
             [
-                'chocolate', '0.3', 2, '1', 'The chocolate costs 0.6.' . PHP_EOL,
+                'chocolate', '0.3', 2, true, 'The chocolate costs 0.6.' . PHP_EOL,
             ],
             [
-                'tea', '0.1', 2, '1', 'The tea costs 0.4.' . PHP_EOL,
+                'tea', '0.1', 2, true, 'The tea costs 0.4.' . PHP_EOL,
             ],
             [
-                'tea', '0.5', -1, '1', 'The number of sugars should be between 0 and 2.' . PHP_EOL,
+                'tea', '0.5', -1, true, 'The number of sugars should be between 0 and 2.' . PHP_EOL,
             ],
             [
-                'tea', '0.5', 3, '1', 'The number of sugars should be between 0 and 2.' . PHP_EOL,
+                'tea', '0.5', 3, true, 'The number of sugars should be between 0 and 2.' . PHP_EOL,
             ],
         ];
     }

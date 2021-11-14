@@ -7,7 +7,7 @@ namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Exceptions;
 use BadMethodCallException;
 use Throwable;
 
-class ImmutableObjectException extends BadMethodCallException
+class ImmutableObjectError extends BadMethodCallException
 {
     public function __construct($object, Throwable $previous = null)
     {

@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
-use GetWith\CoffeeMachine\Machine\Shared\Domain\Values\DrinkId;
 use Stringable;
 
 abstract class Value implements Stringable
 {
-    abstract public function value();
+    public function __toString(): string
+    {
+        return (string) $this->value();
+    }
 
-    final public function equals($other): bool
+    final public function is(mixed $other): bool
     {
         return is_object($other)
             && $other::class === static::class
             && $other == $this;
     }
 
-    public function __toString(): string
+    final public function isNot(mixed $other): bool
     {
-        return (string) $this->value();
+        return !$this->is($other);
     }
+
+    abstract public function value(): mixed;
 }

@@ -32,4 +32,9 @@ final class DummyOrderRepository implements OrderRepository
 
         return (float) array_sum($totals);
     }
+
+    public function reset(): void
+    {
+        self::$orders = [];
+    }
 }

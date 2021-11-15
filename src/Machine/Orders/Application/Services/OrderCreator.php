@@ -39,7 +39,7 @@ final class OrderCreator
         $drinkId = $drink->id();
         $total = new OrderTotal($drink->price()->value());
         $returnedMoney = new OrderReturnedMoney(
-            $total->value() - $money->value()
+            $money->value() - $total->value()
         );
 
         $order = new Order(

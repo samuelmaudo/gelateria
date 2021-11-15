@@ -13,8 +13,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class IntegrationTestCase extends TestCase
 {
-    protected ContainerBuilder $container;
-    protected Application $application;
+    protected ?ContainerBuilder $container;
+    protected ?Application $application;
 
     protected function setUp(): void
     {
@@ -28,5 +28,13 @@ class IntegrationTestCase extends TestCase
         $this->container->compile();
 
         $this->application = $this->container->get(Application::class);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->application = null;
+        $this->container = null;
     }
 }

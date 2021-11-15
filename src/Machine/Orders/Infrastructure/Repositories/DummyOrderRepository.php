@@ -25,7 +25,7 @@ final class DummyOrderRepository implements OrderRepository
         $totals = [];
 
         foreach (self::$orders as $order) {
-            if ($order->drink()->is($drinkId)) {
+            if ($order->drinkId()->is($drinkId)) {
                 $totals[] = $order->total()->value();
             }
         }

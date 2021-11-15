@@ -1,3 +1,6 @@
+imports:
+    - { resource: ../../../../config/machine_services_test.yml }
+
 services:
     _defaults:
         autoconfigure: true
@@ -5,6 +8,8 @@ services:
         public: true
 
     _instanceof:
+        Doctrine\DBAL\Types\Type:
+            tags: [ 'dbal.type' ]
         Symfony\Component\Console\Command\Command:
             tags: [ 'console.command' ]
 
@@ -14,15 +19,11 @@ services:
 
     GetWith\CoffeeMachine\Machine\:
         lazy: true
-        resource: '../../../../src/Machine/*/*/{Services,Repositories}'
+        resource: '../../../../src/Machine/*/*/{Services,Repositories,EntityManagers,MappingTypes}'
 
     GetWith\CoffeeMachine\Shared\:
         lazy: true
-        resource: '../../../../src/Shared/*/*/{Services,Repositories}'
+        resource: '../../../../src/Shared/*/*/{Services,Repositories,EntityManagers,MappingTypes}'
 
     GetWith\CoffeeMachine\Apps\Machine\Console\Application:
         arguments: [ !tagged console.command ]
-
-    GetWith\CoffeeMachine\Machine\Drinks\Domain\Repositories\DrinkRepository: '@GetWith\CoffeeMachine\Machine\Drinks\Infrastructure\Repositories\DummyDrinkRepository'
-
-    GetWith\CoffeeMachine\Machine\Orders\Domain\Repositories\OrderRepository: '@GetWith\CoffeeMachine\Machine\Orders\Infrastructure\Repositories\DummyOrderRepository'

@@ -10,7 +10,7 @@ use GetWith\CoffeeMachine\Machine\Shared\Domain\Values\DrinkId;
 
 interface DrinkRepository
 {
-    public function find(DrinkId $drinkId): ?Drink;
+    public function find(DrinkId $id): ?Drink;
 
     public function search(): Drinks;
 }

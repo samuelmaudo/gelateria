@@ -17,7 +17,7 @@ final class Order extends Entity
 {
     public function __construct(
         private OrderId $id,
-        private DrinkId $drink,
+        private DrinkId $drinkId,
         private OrderSugars $sugars,
         private OrderExtraHot $extraHot,
         private OrderTotal $total,
@@ -31,9 +31,9 @@ final class Order extends Entity
         return $this->id;
     }
 
-    public function drink(): DrinkId
+    public function drinkId(): DrinkId
     {
-        return $this->drink;
+        return $this->drinkId;
     }
 
     public function sugars(): OrderSugars
@@ -63,7 +63,7 @@ final class Order extends Entity
 
     public static function fromPrimitives(
         string $id,
-        string $drink,
+        string $drinkId,
         int|string $sugars,
         bool|string $extraHot,
         float|int|string $total,
@@ -72,7 +72,7 @@ final class Order extends Entity
     ): self {
         return new self(
             new OrderId($id),
-            new DrinkId($drink),
+            new DrinkId($drinkId),
             new OrderSugars($sugars),
             new OrderExtraHot($extraHot),
             new OrderTotal($total),
@@ -85,7 +85,7 @@ final class Order extends Entity
     {
         return [
             'id' => $this->id->value(),
-            'drink' => $this->drink->value(),
+            'drinkId' => $this->drinkId->value(),
             'sugars' => $this->sugars->value(),
             'extraHot' => $this->extraHot->value(),
             'total' => $this->total->value(),

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits\Comparable;
+use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits\SupportsValueComparisons;
 
 use InvalidArgumentException;
 
 abstract class Integer extends Value
 {
-    use Comparable;
+    use SupportsValueComparisons;
 
     protected int $value;
 

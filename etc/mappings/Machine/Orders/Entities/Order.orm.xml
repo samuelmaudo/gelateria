@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="GetWith\CoffeeMachine\Machine\Orders\Domain\Entities\Order" table="machine_orders_order">
+        <id name="id" type="order_id" column="id" length="36" />
+
+        <field name="drinkId" type="drink_id" column="drink_id" length="15" />
+
+        <embedded name="sugars" class="GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderSugars" use-column-prefix="false" />
+        <embedded name="extraHot" class="GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderExtraHot" use-column-prefix="false" />
+        <embedded name="total" class="GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderTotal" use-column-prefix="false" />
+        <embedded name="givenMoney" class="GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderGivenMoney" use-column-prefix="false" />
+        <embedded name="returnedMoney" class="GetWith\CoffeeMachine\Machine\Orders\Domain\Values\OrderReturnedMoney" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>

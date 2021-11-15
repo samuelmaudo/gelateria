@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
 
+use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits\SupportsMembershipTests;
+
 use Stringable;
 
 abstract class Value implements Stringable
 {
+    use SupportsMembershipTests;
+
     public function __toString(): string
     {
         return (string) $this->value();

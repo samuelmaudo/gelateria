@@ -6,7 +6,7 @@ namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits;
 
 use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Value;
 
-trait Comparable
+trait SupportsValueComparisons
 {
     public function lt(mixed $other): bool
     {

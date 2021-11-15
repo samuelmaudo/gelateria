@@ -4,14 +4,14 @@
          beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true">
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">apps/machine/console/src</directory>
             <directory suffix=".php">src</directory>
+            <directory suffix=".php">apps/*/*/src</directory>
         </include>
     </coverage>
     <testsuites>
         <testsuite name="all">
-            <directory>apps/machine/console/tests</directory>
             <directory>tests</directory>
+            <directory>apps/*/*/tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

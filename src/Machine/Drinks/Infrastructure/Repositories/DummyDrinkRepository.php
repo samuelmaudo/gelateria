@@ -37,9 +37,9 @@ final class DummyDrinkRepository implements DrinkRepository
         }
     }
 
-    public function find(DrinkId $drinkId): ?Drink
+    public function find(DrinkId $id): ?Drink
     {
-        $key = $drinkId->value();
+        $key = $id->value();
 
         return self::$drinks[$key] ?? null;
     }

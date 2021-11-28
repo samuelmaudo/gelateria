@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Gelateria\Shop\Orders\Domain\Entities\Order" table="shop_orders_order">
+        <id name="id" type="order_id" column="id" length="36" />
+
+        <field name="gelatoId" type="gelato_id" column="gelato_id" length="15" />
+
+        <embedded name="scoops" class="Gelateria\Shop\Orders\Domain\Values\OrderScoops" use-column-prefix="false" />
+        <embedded name="syrup" class="Gelateria\Shop\Orders\Domain\Values\OrderSyrup" use-column-prefix="false" />
+        <embedded name="total" class="Gelateria\Shop\Orders\Domain\Values\OrderTotal" use-column-prefix="false" />
+        <embedded name="givenMoney" class="Gelateria\Shop\Orders\Domain\Values\OrderGivenMoney" use-column-prefix="false" />
+        <embedded name="returnedMoney" class="Gelateria\Shop\Orders\Domain\Values\OrderReturnedMoney" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>

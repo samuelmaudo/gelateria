@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Entities;
+namespace Gelateria\Shared\Kernel\Domain\Entities;
 
 abstract class Entity
 {

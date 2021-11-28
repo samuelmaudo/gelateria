@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values;
+namespace Gelateria\Shared\Kernel\Domain\Values;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits\SupportsMembershipTests;
+use Gelateria\Shared\Kernel\Domain\Values\Traits\SupportsMembershipTests;
 
 use Stringable;
 

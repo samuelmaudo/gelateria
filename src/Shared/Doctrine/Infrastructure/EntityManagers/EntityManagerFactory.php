@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\EntityManagers;
+namespace Gelateria\Shared\Doctrine\Infrastructure\EntityManagers;
 
-use GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\MappingTypes\MappingTypeRegistrar;
-use GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\SchemaManagers\SchemaManager;
+use Gelateria\Shared\Doctrine\Infrastructure\MappingTypes\MappingTypeRegistrar;
+use Gelateria\Shared\Doctrine\Infrastructure\SchemaManagers\SchemaManager;
 
 use Doctrine\DBAL\Exception as DbalException;
 use Doctrine\DBAL\Types\Type as MappingType;

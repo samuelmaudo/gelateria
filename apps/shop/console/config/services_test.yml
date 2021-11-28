@@ -1,0 +1,29 @@
+imports:
+    - { resource: ../../../../config/shop_services_test.yml }
+
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: true
+
+    _instanceof:
+        Doctrine\DBAL\Types\Type:
+            tags: [ 'dbal.type' ]
+        Symfony\Component\Console\Command\Command:
+            tags: [ 'console.command' ]
+
+    Gelateria\Apps\Shop\Console\:
+        lazy: true
+        resource: '../src'
+
+    Gelateria\Shop\:
+        lazy: true
+        resource: '../../../../src/Shop/*/*/{Services,Repositories,EntityManagers,MappingTypes}'
+
+    Gelateria\Shared\:
+        lazy: true
+        resource: '../../../../src/Shared/*/*/{Services,Repositories,EntityManagers,MappingTypes}'
+
+    Gelateria\Apps\Shop\Console\Application:
+        arguments: [ !tagged console.command ]

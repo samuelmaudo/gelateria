@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\MappingTypes\Traits;
+namespace Gelateria\Shared\Doctrine\Infrastructure\MappingTypes\Traits;
 
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;

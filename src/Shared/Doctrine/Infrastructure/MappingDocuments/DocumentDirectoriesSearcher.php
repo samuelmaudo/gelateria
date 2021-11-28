@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\MappingDocuments;
+namespace Gelateria\Shared\Doctrine\Infrastructure\MappingDocuments;
 
 final class DocumentDirectoriesSearcher
 {
@@ -22,7 +22,7 @@ final class DocumentDirectoriesSearcher
         foreach (self::SUBMODULES as $submodule) {
             $path = "{$baseDir}{$sep}{$context}{$sep}{$module}{$sep}{$submodule}";
             if (is_dir($path)) {
-                $namespace = "GetWith\\CoffeeMachine\\{$context}\\{$module}\\Domain\\{$submodule}";
+                $namespace = "Gelateria\\{$context}\\{$module}\\Domain\\{$submodule}";
                 $paths[$path] = $namespace;
             }
         }

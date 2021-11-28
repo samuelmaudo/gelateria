@@ -20,14 +20,14 @@
     },
     "autoload": {
         "psr-4": {
-            "GetWith\\CoffeeMachine\\Apps\\Machine\\Console\\": "apps/machine/console/src",
-            "GetWith\\CoffeeMachine\\": "src"
+            "Gelateria\\Apps\\Shop\\Console\\": "apps/shop/console/src",
+            "Gelateria\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GetWith\\CoffeeMachine\\Apps\\Machine\\Console\\Tests\\": "apps/machine/console/tests",
-            "GetWith\\CoffeeMachine\\Tests\\": "tests"
+            "Gelateria\\Apps\\Shop\\Console\\Tests\\": "apps/shop/console/tests",
+            "Gelateria\\Tests\\": "tests"
         }
     },
     "config": {

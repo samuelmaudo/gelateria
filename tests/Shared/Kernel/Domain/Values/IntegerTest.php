@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Tests\Shared\Kernel\Domain\Values;
+namespace Gelateria\Tests\Shared\Kernel\Domain\Values;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Integer as AbstractInteger;
+use Gelateria\Shared\Kernel\Domain\Values\Integer as AbstractInteger;
 
 use InvalidArgumentException;
 use TypeError;

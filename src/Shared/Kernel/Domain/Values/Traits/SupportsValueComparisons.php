@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Traits;
+namespace Gelateria\Shared\Kernel\Domain\Values\Traits;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Value;
+use Gelateria\Shared\Kernel\Domain\Values\Value;
 
 trait SupportsValueComparisons
 {

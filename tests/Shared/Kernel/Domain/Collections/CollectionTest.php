@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Tests\Shared\Kernel\Domain\Collections;
+namespace Gelateria\Tests\Shared\Kernel\Domain\Collections;
 
 use BadMethodCallException;
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Collections\Collection;
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Text as AbstractText;
+use Gelateria\Shared\Kernel\Domain\Collections\Collection;
+use Gelateria\Shared\Kernel\Domain\Values\Text as AbstractText;
 
 use InvalidArgumentException;
 

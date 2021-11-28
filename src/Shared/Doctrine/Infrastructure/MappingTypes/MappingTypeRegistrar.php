@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\MappingTypes;
+namespace Gelateria\Shared\Doctrine\Infrastructure\MappingTypes;
 
 use Doctrine\DBAL\Exception as DbalException;
 use Doctrine\DBAL\Types\Type as MappingType;

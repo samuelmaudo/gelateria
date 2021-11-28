@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\MappingTypes\Traits;
+namespace Gelateria\Shared\Doctrine\Infrastructure\MappingTypes\Traits;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Value;
+use Gelateria\Shared\Kernel\Domain\Values\Value;
 
 trait MapsValueObjects
 {

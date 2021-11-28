@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        public: true
+
+    Doctrine\ORM\EntityManager:
+        factory: [ Gelateria\Shop\Shared\Infrastructure\EntityManagers\DoctrineEntityManagerFactory, create ]
+        arguments:
+            - '%env(APP_ENV)%'
+            - driver: '%env(DB_DRIVER)%'
+              host: '%env(DB_HOST)%'
+              port: '%env(DB_PORT)%'
+              dbname: '%env(DB_DATABASE)%'
+              user: '%env(DB_USERNAME)%'
+              password: '%env(DB_PASSWORD)%'
+            - !tagged dbal.type
+
+    Gelateria\Shop\Gelati\Domain\Repositories\GelatoRepository: '@Gelateria\Shop\Gelati\Infrastructure\Repositories\DummyGelatoRepository'
+
+    Gelateria\Shop\Orders\Domain\Repositories\OrderRepository: '@Gelateria\Shop\Orders\Infrastructure\Repositories\DummyOrderRepository'

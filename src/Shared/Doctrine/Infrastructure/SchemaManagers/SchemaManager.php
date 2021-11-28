@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Shared\Doctrine\Infrastructure\SchemaManagers;
+namespace Gelateria\Shared\Doctrine\Infrastructure\SchemaManagers;
 
 use DirectoryIterator;
 use RuntimeException;

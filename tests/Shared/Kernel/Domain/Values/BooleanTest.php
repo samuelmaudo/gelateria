@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GetWith\CoffeeMachine\Tests\Shared\Kernel\Domain\Values;
+namespace Gelateria\Tests\Shared\Kernel\Domain\Values;
 
-use GetWith\CoffeeMachine\Shared\Kernel\Domain\Values\Boolean as AbstractBoolean;
+use Gelateria\Shared\Kernel\Domain\Values\Boolean as AbstractBoolean;
 
 use InvalidArgumentException;
 use TypeError;

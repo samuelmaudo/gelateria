@@ -6,7 +6,7 @@ namespace Gelateria\Shop\Orders\Infrastructure\Repositories;
 
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 final class DummyOrderRepository implements OrderRepository
 {
@@ -20,12 +20,12 @@ final class DummyOrderRepository implements OrderRepository
         self::$orders[$key] = $order;
     }
 
-    public function sumTotalsByGelato(GelatoId $gelatoId): float
+    public function sumTotalsByFlavor(FlavorId $flavorId): float
     {
         $totals = [];
 
         foreach (self::$orders as $order) {
-            if ($order->gelatoId()->is($gelatoId)) {
+            if ($order->flavorId()->is($flavorId)) {
                 $totals[] = $order->total()->value();
             }
         }

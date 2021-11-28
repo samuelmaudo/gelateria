@@ -11,7 +11,7 @@ app:order-gelato
 
 Arguments
 
-|#|Name|Flavor|Required|Description|Values|Default|
+|#|Name|Type|Required|Description|Values|Default|
 |---|---|---|---|---|---|---|
 |1|flavor|string|true|Flavor of gelato|vanilla, pistachio, stracciatella|
 |2|money|float|true|Amount of money given by the user in unit of currency||
@@ -19,17 +19,17 @@ Arguments
 
 Options
 
-|Name|Flavor|Required|Description|Values|Default|
+|Name|Type|Required|Description|Values|Default|
 |---|---|---|---|---|---|
-|syrup (--syrup, -s)| |false|Flag indicating if the user wants to add syrup|true, false|false|
+|syrup (--syrup, -s)|bool|false|Flag indicating if the user wants to add syrup|true, false|false|
 
 List prices
 
-|Gelato|Price|
+|Flavor|Price|
 |---|---|
-|Vanilla|0.4|
-|Pistachio|0.5|
-|Stracciatella|0.6|
+|Vanilla|0.8|
+|Pistachio|1.2|
+|Stracciatella|1.0|
 
 Validations
 * If the gelato flavor is not *vanilla*, *pistachio* or *stracciatella*, it shows the following message:
@@ -38,7 +38,7 @@ The gelato flavor should be vanilla, pistachio or stracciatella.
 ```
 * If the amount of money does not reach the price of the gelato, a message as the following is displayed:
 ```
-The vanilla costs 0.4.
+The vanilla costs 0.8.
 ```
 * If the number of scoops is not between 1 and 3, it shows a message like this:
 ```
@@ -92,7 +92,7 @@ so that we could know how much money we have earned with each flavor of gelato.
 
 Something like the following table would be great:
 
-|Gelato|Money|
+|Flavor|Money|
 |---|---|
 |Vanilla|15|
 |Pistachio|25.75|
@@ -108,8 +108,8 @@ docker/build
 
 Examples of the use of the application.
 ```
-docker/console app:order-gelato vanilla 0.5 1 -e
-docker/console app:order-gelato pistachio 0.5
+docker/console app:order-gelato vanilla 0.8 1 -s
+docker/console app:order-gelato pistachio 1.2
 docker/console app:order-gelato stracciatella 1 --syrup
 ```
 

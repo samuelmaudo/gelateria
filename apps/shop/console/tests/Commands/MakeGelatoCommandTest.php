@@ -44,22 +44,28 @@ class MakeGelatoCommandTest extends IntegrationTestCase
     {
         return [
             [
-                'stracciatella', '0.7', 1, false, 'You have ordered a stracciatella gelato' . PHP_EOL,
+                'stracciatella', '1.0', 1, false, 'You have ordered a stracciatella gelato' . PHP_EOL,
             ],
             [
-                'vanilla', '0.4', 1, true, 'You have ordered a vanilla gelato with syrup' . PHP_EOL,
+                'vanilla', '0.8', 1, true, 'You have ordered a vanilla gelato with syrup' . PHP_EOL,
             ],
             [
-                'pistachio', '2', 2, true, 'You have ordered a pistachio gelato with 2 scoops and syrup' . PHP_EOL,
+                'pistachio', '2.4', 2, true, 'You have ordered a pistachio gelato with 2 scoops and syrup' . PHP_EOL,
             ],
             [
-                'pistachio', '0.2', 2, true, 'The pistachio costs 0.5.' . PHP_EOL,
+                'pistachio', '0.2', 1, true, 'Your order costs 1.2.' . PHP_EOL,
             ],
             [
-                'stracciatella', '0.3', 2, true, 'The stracciatella costs 0.6.' . PHP_EOL,
+                'stracciatella', '0.3', 1, true, 'Your order costs 1.' . PHP_EOL,
             ],
             [
-                'vanilla', '0.1', 2, true, 'The vanilla costs 0.4.' . PHP_EOL,
+                'vanilla', '0.1', 1, true, 'Your order costs 0.8.' . PHP_EOL,
+            ],
+            [
+                'pistachio', '0.2', 2, true, 'Your order costs 2.2.' . PHP_EOL,
+            ],
+            [
+                'pistachio', '0.2', 3, true, 'Your order costs 3.' . PHP_EOL,
             ],
             [
                 'vanilla', '0.5', -1, true, 'The number of scoops should be between 1 and 3.' . PHP_EOL,

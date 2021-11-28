@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Gelati\Domain\Exceptions;
 
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 use Gelateria\Shared\Kernel\Domain\Exceptions\NotFoundError;
 
 /**
- * @extends NotFoundError<GelatoId>
+ * @extends NotFoundError<FlavorId>
  */
-final class GelatoNotFound extends NotFoundError
+final class FlavorNotFound extends NotFoundError
 {
     public function errorCode(): string
     {
-        return 'shop_gelato_not_found';
+        return 'shop_flavor_not_found';
     }
 
     protected function errorMessage(): string
     {
-        return "Gelato <{$this->key()}> has not been found";
+        return "Flavor <{$this->key()}> has not been found";
     }
 }

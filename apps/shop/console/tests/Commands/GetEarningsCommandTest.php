@@ -6,10 +6,10 @@ namespace Gelateria\Apps\Shop\Console\Tests\Commands;
 
 use Gelateria\Apps\Shop\Console\Commands\GetEarningsCommand;
 use Gelateria\Apps\Shop\Console\Tests\Shared\IntegrationTestCase;
-use Gelateria\Shop\Gelati\Domain\Repositories\GelatoRepository;
+use Gelateria\Shop\Gelati\Domain\Repositories\FlavorRepository;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -46,37 +46,37 @@ class GetEarningsCommandTest extends IntegrationTestCase
     {
         return [
             [
-                'vanilla', 37, 'You have earned 14.8' . PHP_EOL,
+                'vanilla', 18, 'You have earned 14.4' . PHP_EOL,
             ],
             [
-                'pistachio', 51, 'You have earned 25.5' . PHP_EOL,
+                'pistachio', 21, 'You have earned 25.2' . PHP_EOL,
             ],
             [
-                'stracciatella', 60, 'You have earned 36' . PHP_EOL,
+                'stracciatella', 36, 'You have earned 36' . PHP_EOL,
             ],
         ];
     }
 
-    protected function seedOrders(string $flavor, int $orders)
+    protected function seedOrders(string $flavorId, int $orders)
     {
-        /** @var GelatoRepository $gelatoRepository */
-        $gelatoRepository = $this->container->get(GelatoRepository::class);
+        /** @var FlavorRepository $flavorRepository */
+        $flavorRepository = $this->container->get(FlavorRepository::class);
 
-        $gelato = $gelatoRepository->find(new GelatoId($flavor));
+        $flavor = $flavorRepository->find(new FlavorId($flavorId));
 
         /** @var OrderRepository $orderRepository */
         $orderRepository = $this->container->get(OrderRepository::class);
 
         $scoops = 1;
         $syrup = false;
-        $total = $gelato->price()->value();
+        $total = $flavor->price()->value();
         $givenMoney = 1.0;
         $returnedMoney = $givenMoney - $total;
 
         for ($i = 0; $i < $orders; $i++) {
             $orderRepository->save(Order::fromPrimitives(
                 RamseyUuid::uuid4()->toString(),
-                $flavor,
+                $flavorId,
                 $scoops,
                 $syrup,
                 $total,

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Gelati\Domain\Collections;
 
-use Gelateria\Shop\Gelati\Domain\Entities\Gelato;
+use Gelateria\Shop\Gelati\Domain\Entities\Flavor;
 use Gelateria\Shared\Kernel\Domain\Collections\Collection;
 
 /**
- * @extends Collection<Gelato>
+ * @extends Collection<Flavor>
  */
-final class Gelati extends Collection
+final class Flavors extends Collection
 {
     public function type(): string
     {
-        return Gelato::class;
+        return Flavor::class;
     }
 }

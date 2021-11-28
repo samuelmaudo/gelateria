@@ -4,10 +4,10 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Gelateria\Shop\Gelati\Domain\Entities\Gelato" table="shop_gelati_gelato">
-        <id name="id" type="gelato_id" column="id" length="15" />
+    <entity name="Gelateria\Shop\Gelati\Domain\Entities\Flavor" table="shop_gelati_flavor">
+        <id name="id" type="flavor_id" column="id" length="15" />
 
-        <embedded name="price" class="Gelateria\Shop\Gelati\Domain\Values\GelatoPrice" use-column-prefix="false" />
+        <embedded name="price" class="Gelateria\Shop\Gelati\Domain\Values\FlavorPrice" use-column-prefix="false" />
     </entity>
 
 </doctrine-mapping>

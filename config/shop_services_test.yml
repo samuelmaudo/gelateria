@@ -14,6 +14,6 @@ services:
               password: '%env(DB_PASSWORD)%'
             - !tagged dbal.type
 
-    Gelateria\Shop\Gelati\Domain\Repositories\GelatoRepository: '@Gelateria\Shop\Gelati\Infrastructure\Repositories\DummyGelatoRepository'
+    Gelateria\Shop\Gelati\Domain\Repositories\FlavorRepository: '@Gelateria\Shop\Gelati\Infrastructure\Repositories\DummyFlavorRepository'
 
     Gelateria\Shop\Orders\Domain\Repositories\OrderRepository: '@Gelateria\Shop\Orders\Infrastructure\Repositories\DummyOrderRepository'

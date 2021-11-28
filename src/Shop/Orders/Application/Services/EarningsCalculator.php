@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Gelateria\Shop\Orders\Application\Services;
 
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 final class EarningsCalculator
 {
@@ -13,8 +13,8 @@ final class EarningsCalculator
     {
     }
 
-    public function calculate(GelatoId $gelatoId): float
+    public function calculate(FlavorId $flavorId): float
     {
-        return $this->repository->sumTotalsByGelato($gelatoId);
+        return $this->repository->sumTotalsByFlavor($flavorId);
     }
 }

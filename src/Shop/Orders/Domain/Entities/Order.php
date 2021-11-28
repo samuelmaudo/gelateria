@@ -9,7 +9,7 @@ use Gelateria\Shop\Orders\Domain\Values\OrderGivenMoney;
 use Gelateria\Shop\Orders\Domain\Values\OrderReturnedMoney;
 use Gelateria\Shop\Orders\Domain\Values\OrderScoops;
 use Gelateria\Shop\Orders\Domain\Values\OrderTotal;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 use Gelateria\Shop\Shared\Domain\Values\OrderId;
 use Gelateria\Shared\Kernel\Domain\Entities\Entity;
 
@@ -17,7 +17,7 @@ final class Order extends Entity
 {
     public function __construct(
         private OrderId $id,
-        private GelatoId $gelatoId,
+        private FlavorId $flavorId,
         private OrderScoops $scoops,
         private OrderSyrup $syrup,
         private OrderTotal $total,
@@ -31,9 +31,9 @@ final class Order extends Entity
         return $this->id;
     }
 
-    public function gelatoId(): GelatoId
+    public function flavorId(): FlavorId
     {
-        return $this->gelatoId;
+        return $this->flavorId;
     }
 
     public function scoops(): OrderScoops
@@ -63,7 +63,7 @@ final class Order extends Entity
 
     public static function fromPrimitives(
         string $id,
-        string $gelatoId,
+        string $flavorId,
         int|string $scoops,
         bool|string $syrup,
         float|int|string $total,
@@ -72,7 +72,7 @@ final class Order extends Entity
     ): self {
         return new self(
             new OrderId($id),
-            new GelatoId($gelatoId),
+            new FlavorId($flavorId),
             new OrderScoops($scoops),
             new OrderSyrup($syrup),
             new OrderTotal($total),
@@ -85,7 +85,7 @@ final class Order extends Entity
     {
         return [
             'id' => $this->id->value(),
-            'gelatoId' => $this->gelatoId->value(),
+            'flavorId' => $this->flavorId->value(),
             'scoops' => $this->scoops->value(),
             'syrup' => $this->syrup->value(),
             'total' => $this->total->value(),

@@ -6,6 +6,6 @@ namespace Gelateria\Shop\Gelati\Domain\Values;
 
 use Gelateria\Shared\Kernel\Domain\Values\Decimal;
 
-final class GelatoPrice extends Decimal
+final class FlavorPrice extends Decimal
 {
 }

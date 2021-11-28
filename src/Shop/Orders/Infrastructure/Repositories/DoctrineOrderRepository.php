@@ -4,40 +4,34 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Orders\Infrastructure\Repositories;
 
+use Gelateria\Shared\Doctrine\Infrastructure\Repositories\DoctrineRepository;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-
-final class DoctrineOrderRepository implements OrderRepository
+final class DoctrineOrderRepository extends DoctrineRepository implements OrderRepository
 {
-    public function __construct(private EntityManager $entityManager)
+    protected function entityClass(): string
     {
-    }
-
-    private function repository(): EntityRepository
-    {
-        return $this->entityManager->getRepository(Order::class);
+        return Order::class;
     }
 
     public function save(Order $order): void
     {
-        $this->entityManager->persist($order);
-        $this->entityManager->flush($order);
+        $this->entityManager()->persist($order);
+        $this->entityManager()->flush($order);
     }
 
-    public function sumTotalsByGelato(GelatoId $gelatoId): float
+    public function sumTotalsByFlavor(FlavorId $flavorId): float
     {
         return (float) $this
-            ->entityManager
+            ->entityManager()
             ->createQuery("
                 SELECT SUM(o.total.value)
                 FROM Gelateria\Shop\Orders\Domain\Entities\Order o
-                WHERE o.gelatoId = :gelatoId
+                WHERE o.flavorId = :flavorId
             ")
-            ->setParameter('gelatoId', $gelatoId)
+            ->setParameter('flavorId', $flavorId)
             ->getSingleScalarResult();
     }
 }

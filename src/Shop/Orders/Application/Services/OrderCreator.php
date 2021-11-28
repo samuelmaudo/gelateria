@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Orders\Application\Services;
 
-use Gelateria\Shop\Gelati\Domain\Entities\Gelato;
+use Gelateria\Shop\Gelati\Domain\Entities\Flavor;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
 use Gelateria\Shop\Orders\Domain\Values\OrderSyrup;
@@ -24,27 +24,33 @@ final class OrderCreator
 
     public function create(
         OrderGivenMoney $money,
-        Gelato $gelato,
+        Flavor $flavor,
         OrderScoops $scoops,
         OrderSyrup $syrup
     ): Order {
 
-        if ($gelato->price()->gt($money)) {
+        $price = $flavor->price()->value();
+        $amount = 0.0;
+        for ($i = 0; $i < $scoops->value(); $i++) {
+            $amount += $price - (0.2 * $i);
+        }
+        $total = new OrderTotal($amount);
+
+        if ($total->gt($money)) {
             throw new InvalidArgumentException(
-                "The {$gelato->id()} costs {$gelato->price()}."
+                "Your order costs {$total}."
             );
         }
 
-        $id = OrderId::random();
-        $gelatoId = $gelato->id();
-        $total = new OrderTotal($gelato->price()->value());
+        $orderId = OrderId::random();
+        $flavorId = $flavor->id();
         $returnedMoney = new OrderReturnedMoney(
             $money->value() - $total->value()
         );
 
         $order = new Order(
-            $id,
-            $gelatoId,
+            $orderId,
+            $flavorId,
             $scoops,
             $syrup,
             $total,

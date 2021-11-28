@@ -8,7 +8,7 @@ use Gelateria\Shop\Orders\Application\Services\EarningsCalculator;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
 use Gelateria\Shop\Orders\Infrastructure\Repositories\DummyOrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 use Gelateria\Shop\Shared\Domain\Values\OrderId;
 
 use TypeError;
@@ -36,18 +36,18 @@ class EarningsCalculatorTest extends TestCase
         $this->repository = null;
     }
 
-    public function testExistingGelato(): void
+    public function testExistingFlavor(): void
     {
-        $gelatoId = new GelatoId('pistachio');
-        $result = $this->service->calculate($gelatoId);
+        $flavorId = new FlavorId('pistachio');
+        $result = $this->service->calculate($flavorId);
 
         $this->assertEquals(0, $result);
     }
 
-    public function testMissingGelato(): void
+    public function testMissingFlavor(): void
     {
-        $gelatoId = new GelatoId('vodka');
-        $result = $this->service->calculate($gelatoId);
+        $flavorId = new FlavorId('vodka');
+        $result = $this->service->calculate($flavorId);
 
         $this->assertEquals(0, $result);
     }
@@ -64,18 +64,18 @@ class EarningsCalculatorTest extends TestCase
         for ($i = 0; $i < 3; $i++) {
             $this->repository->save(Order::fromPrimitives(
                 id: OrderId::random()->value(),
-                gelatoId: 'vanilla',
+                flavorId: 'vanilla',
                 scoops: 1,
                 syrup: false,
-                total: 0.4,
-                givenMoney: 0.5,
-                returnedMoney: 0.1
+                total: 0.8,
+                givenMoney: 1.0,
+                returnedMoney: 0.2
             ));
         }
 
-        $gelatoId = new GelatoId('vanilla');
-        $result = $this->service->calculate($gelatoId);
+        $flavorId = new FlavorId('vanilla');
+        $result = $this->service->calculate($flavorId);
 
-        $this->assertEquals(1.2, $result);
+        $this->assertEquals(2.4, $result);
     }
 }

@@ -7,7 +7,7 @@
     <entity name="Gelateria\Shop\Orders\Domain\Entities\Order" table="shop_orders_order">
         <id name="id" type="order_id" column="id" length="36" />
 
-        <field name="gelatoId" type="gelato_id" column="gelato_id" length="15" />
+        <field name="flavorId" type="flavor_id" column="flavor_id" length="15" />
 
         <embedded name="scoops" class="Gelateria\Shop\Orders\Domain\Values\OrderScoops" use-column-prefix="false" />
         <embedded name="syrup" class="Gelateria\Shop\Orders\Domain\Values\OrderSyrup" use-column-prefix="false" />

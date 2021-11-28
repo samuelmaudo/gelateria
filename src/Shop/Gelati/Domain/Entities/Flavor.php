@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Gelati\Domain\Entities;
 
-use Gelateria\Shop\Gelati\Domain\Values\GelatoPrice;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Gelati\Domain\Values\FlavorPrice;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 use Gelateria\Shared\Kernel\Domain\Entities\Entity;
 
-final class Gelato extends Entity
+final class Flavor extends Entity
 {
     public function __construct(
-        private GelatoId $id,
-        private GelatoPrice $price
+        private FlavorId $id,
+        private FlavorPrice $price
     ) {
     }
 
-    public function id(): GelatoId
+    public function id(): FlavorId
     {
         return $this->id;
     }
 
-    public function price(): GelatoPrice
+    public function price(): FlavorPrice
     {
         return $this->price;
     }
@@ -31,8 +31,8 @@ final class Gelato extends Entity
         float|int|string $price
     ): self {
         return new self(
-            new GelatoId($id),
-            new GelatoPrice($price)
+            new FlavorId($id),
+            new FlavorPrice($price)
         );
     }
 

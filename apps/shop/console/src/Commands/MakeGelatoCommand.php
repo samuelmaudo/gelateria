@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Gelateria\Apps\Shop\Console\Commands;
 
-use Gelateria\Shop\Gelati\Application\Services\GelatoFinder;
-use Gelateria\Shop\Gelati\Domain\Exceptions\GelatoNotFound;
+use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
+use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
 use Gelateria\Shop\Orders\Application\Services\OrderCreator;
 use Gelateria\Shop\Orders\Domain\Values\OrderSyrup;
 use Gelateria\Shop\Orders\Domain\Values\OrderGivenMoney;
 use Gelateria\Shop\Orders\Domain\Values\OrderScoops;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 use InvalidArgumentException;
 
@@ -25,7 +25,7 @@ final class MakeGelatoCommand extends Command
     protected static $defaultName = 'app:order-gelato';
 
     public function __construct(
-        private GelatoFinder $gelatoFinder,
+        private FlavorFinder $flavorFinder,
         private OrderCreator $orderCreator
     ) {
         parent::__construct();
@@ -63,7 +63,7 @@ final class MakeGelatoCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $gelatoId = new GelatoId($input->getArgument('flavor'));
+            $flavorId = new FlavorId($input->getArgument('flavor'));
             $money = new OrderGivenMoney($input->getArgument('money'));
             $scoops = new OrderScoops($input->getArgument('scoops'));
             $syrup = new OrderSyrup($input->getOption('syrup'));
@@ -73,25 +73,20 @@ final class MakeGelatoCommand extends Command
         }
 
         try {
-            $gelato = $this->gelatoFinder->find($gelatoId);
-        } catch (GelatoNotFound) {
+            $flavor = $this->flavorFinder->find($flavorId);
+        } catch (FlavorNotFound) {
             $output->writeln('The gelato flavor should be vanilla, pistachio or stracciatella.');
             return Command::INVALID;
         }
 
-        if ($gelato->price()->gt($money)) {
-            $output->writeln("The {$gelatoId} costs {$gelato->price()}.");
-            return Command::INVALID;
-        }
-
         try {
-            $this->orderCreator->create($money, $gelato, $scoops, $syrup);
+            $this->orderCreator->create($money, $flavor, $scoops, $syrup);
         } catch (InvalidArgumentException $e) {
             $output->writeln($e->getMessage());
             return Command::INVALID;
         }
 
-        $output->write("You have ordered a {$gelatoId} gelato");
+        $output->write("You have ordered a {$flavorId} gelato");
 
         if ($scoops->gt(1)) {
             $output->write(" with {$scoops} scoops");

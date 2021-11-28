@@ -6,7 +6,7 @@ namespace Gelateria\Shop\Shared\Domain\Values;
 
 use Gelateria\Shared\Kernel\Domain\Values\Text;
 
-final class GelatoId extends Text
+final class FlavorId extends Text
 {
     protected function sanitize(string $value): string
     {

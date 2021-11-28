@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Gelateria\Apps\Shop\Console\Commands;
 
-use Gelateria\Shop\Gelati\Application\Services\GelatoFinder;
-use Gelateria\Shop\Gelati\Domain\Exceptions\GelatoNotFound;
+use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
+use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
 use Gelateria\Shop\Orders\Application\Services\EarningsCalculator;
-use Gelateria\Shop\Shared\Domain\Values\GelatoId;
+use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 use InvalidArgumentException;
 
@@ -21,7 +21,7 @@ final class GetEarningsCommand extends Command
     protected static $defaultName = 'app:show-earnings';
 
     public function __construct(
-        private GelatoFinder $gelatoFinder,
+        private FlavorFinder $flavorFinder,
         private EarningsCalculator $earningsCalculator
     ) {
         parent::__construct();
@@ -39,20 +39,20 @@ final class GetEarningsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $gelatoId = new GelatoId($input->getArgument('flavor'));
+            $flavorId = new FlavorId($input->getArgument('flavor'));
         } catch (InvalidArgumentException $e) {
             $output->writeln($e->getMessage());
             return Command::INVALID;
         }
 
         try {
-            $this->gelatoFinder->find($gelatoId);
-        } catch (GelatoNotFound) {
+            $this->flavorFinder->find($flavorId);
+        } catch (FlavorNotFound) {
             $output->writeln('The gelato flavor should be vanilla, pistachio or stracciatella.');
             return Command::INVALID;
         }
 
-        $earnings = $this->earningsCalculator->calculate($gelatoId);
+        $earnings = $this->earningsCalculator->calculate($flavorId);
         $output->writeln("You have earned {$earnings}");
         return Command::SUCCESS;
     }

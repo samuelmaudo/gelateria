@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class GetEarningsCommand extends Command
 {
-    protected static $defaultName = 'app:show-earnings';
+    protected static $defaultName = 'show-earnings';
 
     public function __construct(
         private FlavorFinder $flavorFinder,
@@ -47,13 +47,13 @@ final class GetEarningsCommand extends Command
 
         try {
             $this->flavorFinder->find($flavorId);
-        } catch (FlavorNotFound) {
-            $output->writeln('The gelato flavor should be vanilla, pistachio or stracciatella.');
+        } catch (FlavorNotFound $e) {
+            $output->writeln("We do not make {$e->key()} gelati");
             return Command::INVALID;
         }
 
         $earnings = $this->earningsCalculator->calculate($flavorId);
-        $output->writeln("You have earned {$earnings}");
+        $output->writeln("We have earned {$earnings}");
         return Command::SUCCESS;
     }
 }

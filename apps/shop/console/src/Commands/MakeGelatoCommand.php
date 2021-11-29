@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MakeGelatoCommand extends Command
 {
-    protected static $defaultName = 'app:order-gelato';
+    protected static $defaultName = 'order-gelato';
 
     public function __construct(
         private FlavorFinder $flavorFinder,
@@ -74,8 +74,8 @@ final class MakeGelatoCommand extends Command
 
         try {
             $flavor = $this->flavorFinder->find($flavorId);
-        } catch (FlavorNotFound) {
-            $output->writeln('The gelato flavor should be vanilla, pistachio or stracciatella.');
+        } catch (FlavorNotFound $e) {
+            $output->writeln("We do not make {$e->key()} gelati");
             return Command::INVALID;
         }
 

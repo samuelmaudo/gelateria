@@ -38,7 +38,7 @@ final class OrderCreator
 
         if ($total->gt($money)) {
             throw new InvalidArgumentException(
-                "Your order costs {$total}."
+                "Your order costs {$total}"
             );
         }
 

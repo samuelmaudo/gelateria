@@ -16,7 +16,7 @@ final class OrderScoops extends Integer
 
         if ($value < 1 || $value > 3) {
             throw new InvalidArgumentException(
-                'The number of scoops should be between 1 and 3.'
+                'The number of scoops should be between 1 and 3'
             );
         }
     }

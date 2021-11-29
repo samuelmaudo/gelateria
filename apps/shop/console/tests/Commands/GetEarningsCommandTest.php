@@ -27,7 +27,7 @@ class GetEarningsCommandTest extends IntegrationTestCase
         $this->seedOrders($flavor, $orders);
 
         /** @var GetEarningsCommand $command */
-        $command = $this->application->find('app:show-earnings');
+        $command = $this->application->find('show-earnings');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -46,13 +46,16 @@ class GetEarningsCommandTest extends IntegrationTestCase
     {
         return [
             [
-                'vanilla', 18, 'You have earned 14.4' . PHP_EOL,
+                'vodka', 0, 'We do not make vodka gelati' . PHP_EOL,
             ],
             [
-                'pistachio', 21, 'You have earned 25.2' . PHP_EOL,
+                'vanilla', 18, 'We have earned 14.4' . PHP_EOL,
             ],
             [
-                'stracciatella', 36, 'You have earned 36' . PHP_EOL,
+                'pistachio', 21, 'We have earned 25.2' . PHP_EOL,
+            ],
+            [
+                'stracciatella', 36, 'We have earned 36' . PHP_EOL,
             ],
         ];
     }
@@ -63,6 +66,10 @@ class GetEarningsCommandTest extends IntegrationTestCase
         $flavorRepository = $this->container->get(FlavorRepository::class);
 
         $flavor = $flavorRepository->find(new FlavorId($flavorId));
+
+        if (null === $flavor) {
+            return;
+        }
 
         /** @var OrderRepository $orderRepository */
         $orderRepository = $this->container->get(OrderRepository::class);

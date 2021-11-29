@@ -22,7 +22,7 @@ class MakeGelatoCommandTest extends IntegrationTestCase
         string $expectedOutput
     ): void {
         /** @var MakeGelatoCommand $command */
-        $command = $this->application->find('app:order-gelato');
+        $command = $this->application->find('order-gelato');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -44,6 +44,30 @@ class MakeGelatoCommandTest extends IntegrationTestCase
     {
         return [
             [
+                'vodka', '1.0', 1, false, 'We do not make vodka gelati' . PHP_EOL,
+            ],
+            [
+                'pistachio', '0.2', 1, true, 'Your order costs 1.2' . PHP_EOL,
+            ],
+            [
+                'stracciatella', '0.3', 1, true, 'Your order costs 1' . PHP_EOL,
+            ],
+            [
+                'vanilla', '0.1', 1, true, 'Your order costs 0.8' . PHP_EOL,
+            ],
+            [
+                'pistachio', '0.2', 2, true, 'Your order costs 2.2' . PHP_EOL,
+            ],
+            [
+                'pistachio', '0.2', 3, true, 'Your order costs 3' . PHP_EOL,
+            ],
+            [
+                'vanilla', '0.5', -1, true, 'The number of scoops should be between 1 and 3' . PHP_EOL,
+            ],
+            [
+                'vanilla', '0.5', 4, true, 'The number of scoops should be between 1 and 3' . PHP_EOL,
+            ],
+            [
                 'stracciatella', '1.0', 1, false, 'You have ordered a stracciatella gelato' . PHP_EOL,
             ],
             [
@@ -51,27 +75,6 @@ class MakeGelatoCommandTest extends IntegrationTestCase
             ],
             [
                 'pistachio', '2.4', 2, true, 'You have ordered a pistachio gelato with 2 scoops and syrup' . PHP_EOL,
-            ],
-            [
-                'pistachio', '0.2', 1, true, 'Your order costs 1.2.' . PHP_EOL,
-            ],
-            [
-                'stracciatella', '0.3', 1, true, 'Your order costs 1.' . PHP_EOL,
-            ],
-            [
-                'vanilla', '0.1', 1, true, 'Your order costs 0.8.' . PHP_EOL,
-            ],
-            [
-                'pistachio', '0.2', 2, true, 'Your order costs 2.2.' . PHP_EOL,
-            ],
-            [
-                'pistachio', '0.2', 3, true, 'Your order costs 3.' . PHP_EOL,
-            ],
-            [
-                'vanilla', '0.5', -1, true, 'The number of scoops should be between 1 and 3.' . PHP_EOL,
-            ],
-            [
-                'vanilla', '0.5', 4, true, 'The number of scoops should be between 1 and 3.' . PHP_EOL,
             ],
         ];
     }

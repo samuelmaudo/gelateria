@@ -14,7 +14,7 @@ final class ImmutableObjectError extends BadMethodCallException
         $class = $object::class;
 
         parent::__construct(
-            message: "{$class} instances cannot be modified.",
+            message: "{$class} instances cannot be modified",
             previous: $previous
         );
     }

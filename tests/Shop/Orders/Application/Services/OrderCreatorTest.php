@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Gelateria\Tests\Shop\Orders\Application\Services;
 
-use Gelateria\Shop\Gelati\Domain\Entities\Flavor;
+use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
+use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
+use Gelateria\Shop\Gelati\Infrastructure\Repositories\DummyFlavorRepository;
 use Gelateria\Shop\Orders\Application\Services\OrderCreator;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
-use Gelateria\Shop\Orders\Domain\Values\OrderSyrup;
-use Gelateria\Shop\Orders\Domain\Values\OrderGivenMoney;
-use Gelateria\Shop\Orders\Domain\Values\OrderScoops;
 use Gelateria\Shop\Orders\Infrastructure\Repositories\DummyOrderRepository;
 
 use InvalidArgumentException;
@@ -27,7 +26,9 @@ class OrderCreatorTest extends TestCase
         parent::setUp();
 
         $this->repository = new DummyOrderRepository();
-        $this->service = new OrderCreator($this->repository);
+
+        $finder = new FlavorFinder(new DummyFlavorRepository());
+        $this->service = new OrderCreator($finder, $this->repository);
     }
 
     public function tearDown(): void
@@ -42,12 +43,12 @@ class OrderCreatorTest extends TestCase
 
     public function testValidOrder(): void
     {
-        $money = new OrderGivenMoney(1.0);
-        $flavor = Flavor::fromPrimitives('stracciatella', 1.0);
-        $scoops = new OrderScoops(1);
-        $syrup = new OrderSyrup(true);
+        $money = 1.0;
+        $flavorId = 'stracciatella';
+        $scoops = 1;
+        $syrup = true;
 
-        $order = $this->service->create($money, $flavor, $scoops, $syrup);
+        $order = $this->service->create($money, $flavorId, $scoops, $syrup);
 
         $this->assertInstanceOf(Order::class, $order);
 
@@ -58,24 +59,36 @@ class OrderCreatorTest extends TestCase
         $this->assertEquals(1.0, $order->givenMoney()->value());
         $this->assertEquals(0.0, $order->returnedMoney()->value());
 
-        $this->assertTrue($order->flavorId()->is($flavor->id()));
-        $this->assertTrue($order->scoops()->is($scoops));
-        $this->assertTrue($order->syrup()->is($syrup));
+        $this->assertTrue($order->scoops()->eq($scoops));
+        $this->assertTrue($order->syrup()->isTrue());
         $this->assertTrue($order->total()->eq(1.0));
-        $this->assertTrue($order->givenMoney()->is($money));
+        $this->assertTrue($order->givenMoney()->eq($money));
         $this->assertTrue($order->returnedMoney()->eq(0.0));
     }
 
-    public function testInvalidOrder(): void
+    public function testInsufficientMoney(): void
     {
-        $money = new OrderGivenMoney(0.5);
-        $flavor = Flavor::fromPrimitives('stracciatella', 1.0);
-        $scoops = new OrderScoops(1);
-        $syrup = new OrderSyrup(true);
+        $money = 0.5;
+        $flavorId = 'stracciatella';
+        $scoops = 1;
+        $syrup = true;
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Your order costs 1');
 
-        $this->service->create($money, $flavor, $scoops, $syrup);
+        $this->service->create($money, $flavorId, $scoops, $syrup);
+    }
+
+    public function testMissingFlavor(): void
+    {
+        $money = 0.5;
+        $flavorId = 'vodka';
+        $scoops = 1;
+        $syrup = true;
+
+        $this->expectException(FlavorNotFound::class);
+        $this->expectExceptionMessage('Flavor <vodka> has not been found');
+
+        $this->service->create($money, $flavorId, $scoops, $syrup);
     }
 }

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Gelateria\Apps\Shop\Console\Commands;
 
-use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
 use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
 use Gelateria\Shop\Orders\Application\Services\EarningsCalculator;
-use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 use InvalidArgumentException;
 
@@ -20,10 +18,8 @@ final class GetEarningsCommand extends Command
 {
     protected static $defaultName = 'show-earnings';
 
-    public function __construct(
-        private FlavorFinder $flavorFinder,
-        private EarningsCalculator $earningsCalculator
-    ) {
+    public function __construct(private EarningsCalculator $earningsCalculator)
+    {
         parent::__construct();
     }
 
@@ -38,21 +34,18 @@ final class GetEarningsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $flavorId = $input->getArgument('flavor');
+
         try {
-            $flavorId = new FlavorId($input->getArgument('flavor'));
+            $earnings = $this->earningsCalculator->calculate($flavorId);
+        } catch (FlavorNotFound $e) {
+            $output->writeln("We do not make {$e->key()} gelati");
+            return Command::INVALID;
         } catch (InvalidArgumentException $e) {
             $output->writeln($e->getMessage());
             return Command::INVALID;
         }
 
-        try {
-            $this->flavorFinder->find($flavorId);
-        } catch (FlavorNotFound $e) {
-            $output->writeln("We do not make {$e->key()} gelati");
-            return Command::INVALID;
-        }
-
-        $earnings = $this->earningsCalculator->calculate($flavorId);
         $output->writeln("We have earned {$earnings}");
         return Command::SUCCESS;
     }

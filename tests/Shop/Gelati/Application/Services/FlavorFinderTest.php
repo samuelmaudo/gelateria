@@ -8,7 +8,6 @@ use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
 use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
 use Gelateria\Shop\Gelati\Domain\Repositories\FlavorRepository;
 use Gelateria\Shop\Gelati\Infrastructure\Repositories\DummyFlavorRepository;
-use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 use TypeError;
 
@@ -37,24 +36,22 @@ class FlavorFinderTest extends TestCase
 
     public function testExistingFlavor(): void
     {
-        $flavorId = new FlavorId('pistachio');
-        $flavor = $this->service->find($flavorId);
+        $flavor = $this->service->find('pistachio');
 
-        $this->assertTrue($flavorId->is($flavor->id()));
+        $this->assertEquals('pistachio', $flavor->id()->value());
     }
 
     public function testMissingFlavor(): void
     {
         $this->expectException(FlavorNotFound::class);
 
-        $flavorId = new FlavorId('vodka');
-        $this->service->find($flavorId);
+        $this->service->find('vodka');
     }
 
     public function testInvalidKey(): void
     {
         $this->expectException(TypeError::class);
 
-        $this->service->find('pistachio');
+        $this->service->find(1);
     }
 }

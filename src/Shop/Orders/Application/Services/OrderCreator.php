@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Orders\Application\Services;
 
-use Gelateria\Shop\Gelati\Domain\Entities\Flavor;
+use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
 use Gelateria\Shop\Orders\Domain\Values\OrderSyrup;
@@ -18,16 +18,23 @@ use InvalidArgumentException;
 
 final class OrderCreator
 {
-    public function __construct(private OrderRepository $repository)
-    {
+    public function __construct(
+        private FlavorFinder $flavorFinder,
+        private OrderRepository $repository
+    ) {
     }
 
     public function create(
-        OrderGivenMoney $money,
-        Flavor $flavor,
-        OrderScoops $scoops,
-        OrderSyrup $syrup
+        float|int|string $money,
+        string $flavorId,
+        int|string $scoops,
+        bool|int|string $syrup
     ): Order {
+
+        $money = new OrderGivenMoney($money);
+        $flavor = $this->flavorFinder->find($flavorId);
+        $scoops = new OrderScoops($scoops);
+        $syrup = new OrderSyrup($syrup);
 
         $price = $flavor->price()->value();
         $amount = 0.0;

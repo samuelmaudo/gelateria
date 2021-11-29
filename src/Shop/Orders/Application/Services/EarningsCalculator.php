@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace Gelateria\Shop\Orders\Application\Services;
 
+use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 final class EarningsCalculator
 {
-    public function __construct(private OrderRepository $repository)
-    {
+    public function __construct(
+        private FlavorFinder $flavorFinder,
+        private OrderRepository $repository
+    ) {
     }
 
-    public function calculate(FlavorId $flavorId): float
+    public function calculate(string $id): float
     {
-        return $this->repository->sumTotalsByFlavor($flavorId);
+        $flavor = $this->flavorFinder->find($id);
+
+        return $this->repository->sumTotalsByFlavor($flavor->id());
     }
 }

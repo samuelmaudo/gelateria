@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace Gelateria\Apps\Shop\Console\Commands;
 
-use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
 use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
 use Gelateria\Shop\Orders\Application\Services\OrderCreator;
-use Gelateria\Shop\Orders\Domain\Values\OrderSyrup;
-use Gelateria\Shop\Orders\Domain\Values\OrderGivenMoney;
-use Gelateria\Shop\Orders\Domain\Values\OrderScoops;
-use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 
 use InvalidArgumentException;
 
@@ -24,10 +19,8 @@ final class MakeGelatoCommand extends Command
 {
     protected static $defaultName = 'order-gelato';
 
-    public function __construct(
-        private FlavorFinder $flavorFinder,
-        private OrderCreator $orderCreator
-    ) {
+    public function __construct(private OrderCreator $orderCreator)
+    {
         parent::__construct();
     }
 
@@ -62,25 +55,16 @@ final class MakeGelatoCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        try {
-            $flavorId = new FlavorId($input->getArgument('flavor'));
-            $money = new OrderGivenMoney($input->getArgument('money'));
-            $scoops = new OrderScoops($input->getArgument('scoops'));
-            $syrup = new OrderSyrup($input->getOption('syrup'));
-        } catch (InvalidArgumentException $e) {
-            $output->writeln($e->getMessage());
-            return Command::INVALID;
-        }
+        $flavorId = $input->getArgument('flavor');
+        $money = $input->getArgument('money');
+        $scoops = $input->getArgument('scoops');
+        $syrup = $input->getOption('syrup');
 
         try {
-            $flavor = $this->flavorFinder->find($flavorId);
+            $order = $this->orderCreator->create($money, $flavorId, $scoops, $syrup);
         } catch (FlavorNotFound $e) {
             $output->writeln("We do not make {$e->key()} gelati");
             return Command::INVALID;
-        }
-
-        try {
-            $this->orderCreator->create($money, $flavor, $scoops, $syrup);
         } catch (InvalidArgumentException $e) {
             $output->writeln($e->getMessage());
             return Command::INVALID;
@@ -88,13 +72,13 @@ final class MakeGelatoCommand extends Command
 
         $output->write("You have ordered a {$flavorId} gelato");
 
-        if ($scoops->gt(1)) {
+        if ($order->scoops()->gt(1)) {
             $output->write(" with {$scoops} scoops");
-            if ($syrup->isTrue()) {
+            if ($order->syrup()->isTrue()) {
                 $output->write(' and syrup');
             }
         } else {
-            if ($syrup->isTrue()) {
+            if ($order->syrup()->isTrue()) {
                 $output->write(' with syrup');
             }
         }

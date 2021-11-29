@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Gelateria\Tests\Shop\Orders\Application\Services;
 
+use Gelateria\Shop\Gelati\Application\Services\FlavorFinder;
+use Gelateria\Shop\Gelati\Domain\Exceptions\FlavorNotFound;
+use Gelateria\Shop\Gelati\Infrastructure\Repositories\DummyFlavorRepository;
 use Gelateria\Shop\Orders\Application\Services\EarningsCalculator;
 use Gelateria\Shop\Orders\Domain\Entities\Order;
 use Gelateria\Shop\Orders\Domain\Repositories\OrderRepository;
 use Gelateria\Shop\Orders\Infrastructure\Repositories\DummyOrderRepository;
-use Gelateria\Shop\Shared\Domain\Values\FlavorId;
 use Gelateria\Shop\Shared\Domain\Values\OrderId;
 
 use TypeError;
@@ -25,7 +27,9 @@ class EarningsCalculatorTest extends TestCase
         parent::setUp();
 
         $this->repository = new DummyOrderRepository();
-        $this->service = new EarningsCalculator($this->repository);
+
+        $finder = new FlavorFinder(new DummyFlavorRepository());
+        $this->service = new EarningsCalculator($finder, $this->repository);
     }
 
     public function tearDown(): void
@@ -38,25 +42,23 @@ class EarningsCalculatorTest extends TestCase
 
     public function testExistingFlavor(): void
     {
-        $flavorId = new FlavorId('pistachio');
-        $result = $this->service->calculate($flavorId);
+        $result = $this->service->calculate('pistachio');
 
         $this->assertEquals(0, $result);
     }
 
     public function testMissingFlavor(): void
     {
-        $flavorId = new FlavorId('vodka');
-        $result = $this->service->calculate($flavorId);
+        $this->expectException(FlavorNotFound::class);
 
-        $this->assertEquals(0, $result);
+        $this->service->calculate('vodka');
     }
 
     public function testInvalidKey(): void
     {
         $this->expectException(TypeError::class);
 
-        $this->service->calculate('pistachio');
+        $this->service->calculate(1);
     }
 
     public function testResults(): void
@@ -73,8 +75,7 @@ class EarningsCalculatorTest extends TestCase
             ));
         }
 
-        $flavorId = new FlavorId('vanilla');
-        $result = $this->service->calculate($flavorId);
+        $result = $this->service->calculate('vanilla');
 
         $this->assertEquals(2.4, $result);
     }

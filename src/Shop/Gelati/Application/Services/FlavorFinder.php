@@ -15,9 +15,9 @@ final class FlavorFinder
     {
     }
 
-    public function find(FlavorId $id): Flavor
+    public function find(string $id): Flavor
     {
-        $flavor = $this->repository->find($id);
+        $flavor = $this->repository->find(new FlavorId($id));
 
         if (is_null($flavor)) {
             throw new FlavorNotFound($id);
